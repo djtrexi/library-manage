@@ -9,9 +9,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,7 @@ public class Utente {
 	private LocalDate dataModifica;
 	private LocalDate oraModifica;
 	private Boolean flagElimanto;
+	private Boolean isAdmin;
 	
 	@OneToMany(mappedBy = "utente")
 	private List<Noleggio> noleggio;
@@ -127,5 +131,13 @@ public class Utente {
 
 	public void setNoleggio(List<Noleggio> noleggio) {
 		this.noleggio = noleggio;
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }
