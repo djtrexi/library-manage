@@ -2,9 +2,8 @@ package it.backend.LibraryManage.service;
 
 import java.util.List;
 
-import javax.crypto.spec.SecretKeySpec;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import it.backend.LibraryManage.model.Utente;
@@ -17,6 +16,7 @@ public class UtenteService {
 	
 	public Boolean inserUser(Utente utente) {
 		try {
+			savePassword(utente.getPassword());
 			utenteRepository.save(utente);
 			return Boolean.TRUE;
 		} catch(Exception e) {
@@ -25,7 +25,8 @@ public class UtenteService {
 	}
 	
 	public Utente login(String email, String password) {
-		Utente utente = utenteRepository.login(email, password);
+		String pass = savePassword(password);
+		Utente utente = utenteRepository.login(email, pass);
 		if(utente == null) {
 			return null;
 		}
@@ -36,5 +37,11 @@ public class UtenteService {
 	
 	public List<Utente> listUtente(Boolean flagElimanto) {
 		return utenteRepository.listUtente(flagElimanto);
+	}
+	
+	private String savePassword(String password) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String encode = bCryptPasswordEncoder.encode(password);
+		return encode;
 	}
 }
