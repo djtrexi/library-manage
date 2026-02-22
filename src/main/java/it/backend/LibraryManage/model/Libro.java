@@ -1,11 +1,15 @@
 package it.backend.LibraryManage.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -19,8 +23,13 @@ public class Libro {
 	private int anno;
 	private int quantità;
 	
-	@OneToMany(mappedBy = "libro")
-	private List<LibroScaffale> libroScaffale;
+	@ManyToMany
+	@JoinTable(
+		name = "libro_scaffale",
+		joinColumns = @JoinColumn(name="codLibro"),
+		inverseJoinColumns = @JoinColumn(name = "scaffale_id")
+	)
+	private List<Scaffale> scaffale = new ArrayList<Scaffale>();
 	
 	@OneToMany(mappedBy = "libro")
 	private List<Noleggio> noleggio;
@@ -75,12 +84,12 @@ public class Libro {
 		this.quantità = quantità;
 	}
 
-	public List<LibroScaffale> getLibroScaffale() {
-		return libroScaffale;
+	public List<Scaffale> getScaffale() {
+		return scaffale;
 	}
 
-	public void setLibroScaffale(List<LibroScaffale> libroScaffale) {
-		this.libroScaffale = libroScaffale;
+	public void setScaffale(List<Scaffale> scaffale) {
+		this.scaffale = scaffale;
 	}
 
 	public List<Noleggio> getNoleggio() {

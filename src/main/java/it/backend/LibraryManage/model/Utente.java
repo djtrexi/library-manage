@@ -21,22 +21,22 @@ public class Utente {
 	private Long id;
 	private String nome;
 	private String cognome;
+	private String indirizzo;
 	@Column(unique = true)
 	private String email;
-	private String password;
-	private char sesso;
-	private LocalDate dataCreazione;
-	private LocalTime oraCreazione;
-	private LocalDate dataModifica;
-	private LocalDate oraModifica;
-	private Boolean flagElimanto;
-	private Boolean isAdmin;
 	
 	@OneToMany(mappedBy = "utente")
 	private List<Noleggio> noleggio;
 	
 	public Utente() {}
 	
+	public Utente(String nome, String cognome, String indirizzo, String email) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.indirizzo = indirizzo;
+		this.email = email;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -69,62 +69,6 @@ public class Utente {
 		this.email = email;
 	}
 	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public char getSesso() {
-		return sesso;
-	}
-	
-	public void setSesso(char sesso) {
-		this.sesso = sesso;
-	}
-	
-	public LocalDate getDataCreazione() {
-		return dataCreazione;
-	}
-	
-	public void setDataCreazione(LocalDate dataCreazione) {
-		this.dataCreazione = dataCreazione;
-	}
-	
-	public LocalTime getOraCreazione() {
-		return oraCreazione;
-	}
-	
-	public void setOraCreazione(LocalTime oraCreazione) {
-		this.oraCreazione = oraCreazione;
-	}
-	
-	public LocalDate getDataModifica() {
-		return dataModifica;
-	}
-	
-	public void setDataModifica(LocalDate dataModifica) {
-		this.dataModifica = dataModifica;
-	}
-	
-	public LocalDate getOraModifica() {
-		return oraModifica;
-	}
-	
-	public void setOraModifica(LocalDate oraModifica) {
-		this.oraModifica = oraModifica;
-	}
-	
-	public Boolean getFlagElimanto() {
-		return flagElimanto;
-	}
-	
-	public void setFlagElimanto(Boolean flagElimanto) {
-		this.flagElimanto = flagElimanto;
-	}
-
 	public List<Noleggio> getNoleggio() {
 		return noleggio;
 	}
@@ -133,11 +77,11 @@ public class Utente {
 		this.noleggio = noleggio;
 	}
 
-	public Boolean getIsAdmin() {
-		return isAdmin;
+	public String getIndirizzo() {
+		return indirizzo;
 	}
 
-	public void setIsAdmin(Boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
 	}
 }

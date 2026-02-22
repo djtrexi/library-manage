@@ -1,11 +1,13 @@
 package it.backend.LibraryManage.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -17,8 +19,8 @@ public class Scaffale {
 	private Double lunghezza;
 	private Double altezza;
 	
-	@OneToMany(mappedBy = "scaffale")
-	private List<LibroScaffale> libroScaffale;
+	@ManyToMany(mappedBy = "scaffale")
+	private List<Libro> libro = new ArrayList<Libro>(); 
 	
 	public Scaffale() {}
 
@@ -54,11 +56,11 @@ public class Scaffale {
 		this.altezza = altezza;
 	}
 
-	public List<LibroScaffale> getLibroScaffale() {
-		return libroScaffale;
+	public List<Libro> getLibro() {
+		return libro;
 	}
 
-	public void setLibroScaffale(List<LibroScaffale> libroScaffale) {
-		this.libroScaffale = libroScaffale;
+	public void setLibro(List<Libro> libro) {
+		this.libro = libro;
 	}
 }
