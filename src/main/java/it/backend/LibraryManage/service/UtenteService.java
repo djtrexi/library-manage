@@ -1,10 +1,18 @@
 package it.backend.LibraryManage.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.backend.LibraryManage.model.Utente;
 import it.backend.LibraryManage.repository.UtenteRepository;
@@ -90,4 +98,43 @@ public class UtenteService {
 			}
 		}
 	}
-}
+	
+	public void addManageCsv(MultipartFile multipartFile) {
+		List<Utente> utentes;
+		try {
+			utentes = manageCSV(multipartFile.getInputStream());
+			utenteRepository.saveAll(utentes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Utente> manageCSV(InputStream inputStream) {
+	    try {
+	        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+	        
+	        CSVFormat format = CSVFormat.DEFAULT
+	                .withDelimiter(';') 
+	                .withFirstRecordAsHeader()
+	                .withIgnoreHeaderCase()
+	                .withTrim();
+
+	        CSVParser csvParser = new CSVParser(bufferedReader, format);
+	        List<Utente> utentes = new ArrayList<>();
+	        
+	        for (CSVRecord csvRecord : csvParser) {
+	            Utente utente = new Utente();
+	            utente.setId(Long.parseLong(csvRecord.get("Id")));
+	            utente.setNome(csvRecord.get("Nome"));
+	            utente.setCognome(csvRecord.get("Cognome"));
+	            utente.setIndirizzo(csvRecord.get("Indirizzo"));
+	            utente.setEmail(csvRecord.get("Email"));
+	            
+	            utentes.add(utente);
+	        }
+	        return utentes;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Errore parsing CSV: " + e.getMessage());
+	    }
+	}}

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.backend.LibraryManage.model.Utente;
 import it.backend.LibraryManage.request.utente.UtenteGetFilterListUserRequest;
@@ -87,15 +89,16 @@ public class UtenteController {
 	
 	@GetMapping("/getFilterNameSurname")
 	public ResponseEntity<UtenteGetFilterListUserResponse> getFilterListUser(@RequestBody UtenteGetFilterListUserRequest utenteGetFilterListUserRequest) {
-		if (!utenteGetFilterListUserRequest.isValid()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		List<Utente> listUtentes = utenteService.getFilterListUser(utenteGetFilterListUserRequest.getNome(), utenteGetFilterListUserRequest.getCognome());
+		if (listUtentes == null) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		else {
-			List<Utente> listUtentes = utenteService.getFilterListUser(utenteGetFilterListUserRequest.getNome(), utenteGetFilterListUserRequest.getCognome());
-			if (listUtentes == null) {
-				return ResponseEntity.status(HttpStatus.CONFLICT).build();
-			}
-			return ResponseEntity.status(HttpStatus.OK).body(new UtenteGetFilterListUserResponse(listUtentes));
-		}
+		return ResponseEntity.status(HttpStatus.OK).body(new UtenteGetFilterListUserResponse(listUtentes));
+	}
+	
+	@PostMapping("/csvUtente")
+	public ResponseEntity uploadCsv(@RequestParam MultipartFile multipartFile) {
+		utenteService.addManageCsv(multipartFile);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }

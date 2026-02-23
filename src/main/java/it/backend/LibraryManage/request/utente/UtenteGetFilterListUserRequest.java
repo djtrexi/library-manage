@@ -23,12 +23,4 @@ public class UtenteGetFilterListUserRequest {
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
-	
-	@JsonIgnore
-	public Boolean isValid() {
-		if (nome.isEmpty() || cognome.isEmpty()) {
-			return Boolean.FALSE;
-		}
-		return Boolean.TRUE;
-	}
 }

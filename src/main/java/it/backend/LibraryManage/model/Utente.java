@@ -30,6 +30,14 @@ public class Utente {
 	
 	public Utente() {}
 	
+	public Utente(Long id, String nome, String cognome, String indirizzo, String email) {
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.indirizzo = indirizzo;
+		this.email = email;
+	}
+	
 	public Utente(String nome, String cognome, String indirizzo, String email) {
 		this.nome = nome;
 		this.cognome = cognome;
