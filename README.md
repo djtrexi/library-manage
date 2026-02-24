@@ -6,5 +6,5 @@ Per scaricare il progetto bisgona fare i seguenti comandi:
 2. Seguire i comandi
 
 ```bash
-git clone https://github.com/nome-utente/nome-repo.git
+git clone https://github.com/djtrexi/library-manage
 ```
